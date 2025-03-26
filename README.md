@@ -54,8 +54,12 @@ this:
 curl -i $endpoint/hmac-demo-20230727/doc
 ```
 
+## Screencast
 
-## Displaimer
+You can view [the screencast](https://youtu.be/-xWdoQEwFCI) as well.
+[![screencast](./images/3EfQdbVCqiDZSYL.png)](https://youtu.be/-xWdoQEwFCI).
+
+## Disclaimer
 
 This example is not an official Google product, nor is it part of an
 official Google product.
