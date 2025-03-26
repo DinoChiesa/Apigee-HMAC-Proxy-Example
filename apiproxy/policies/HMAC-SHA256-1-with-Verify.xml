@@ -1,0 +1,7 @@
+<HMAC name='HMAC-SHA256-1-with-Verify'>
+  <Algorithm>SHA-256</Algorithm>
+  <Message ref='request.content' />
+  <SecretKey ref='private.secretkey' />
+  <Output encoding='base16'>hmac_value</Output>
+  <VerificationValue ref="request.queryparam.verification" encoding="base16"/>
+</HMAC>

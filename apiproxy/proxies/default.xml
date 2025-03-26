@@ -1,0 +1,113 @@
+<ProxyEndpoint name='default'>
+  <Description>Default Proxy</Description>
+  <HTTPProxyConnection>
+    <BasePath>/hmac-demo-20230727</BasePath>
+  </HTTPProxyConnection>
+
+  <FaultRules />
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <PreFlow name='PreFlow'>
+    <Request />
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <PostFlow name='PostFlow'>
+    <Request />
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <Flows>
+    <Flow name='doc'>
+      <Description>returns documentation on the HMAC proxy</Description>
+      <Request />
+      <Response>
+        <Step>
+          <Name>AM-DocResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/doc") AND (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name='flow 1 - sha256 on payload'>
+      <Description>calculate an HMAC on the post payload</Description>
+      <Request>
+        <Step>
+          <Name>AM-SecretKey</Name>
+        </Step>
+        <Step>
+          <Name>HMAC-SHA256-1</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/sha256/payload") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name='flow 1a - sha256 on payload with verification'>
+      <Description>calculate an HMAC on the post payload, and verify it</Description>
+      <Request>
+        <Step>
+          <Condition>request.queryparam.verification = null</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+        <Step>
+          <Name>AM-SecretKey</Name>
+        </Step>
+        <Step>
+          <Name>HMAC-SHA256-1-with-Verify</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-1a</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/sha256/payload-with-verify") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name='test 2 - message composition'>
+      <Description>calculate an HMAC on a composition of message elements</Description>
+      <Request>
+        <Step>
+          <Name>AM-SecretKey</Name>
+        </Step>
+        <Step>
+          <Name>HMAC-SHA256-2</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-2</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/sha256/composition") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name='unknown request'>
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response />
+    </Flow>
+  </Flows>
+
+  <RouteRule name='NoRouteRule' />
+</ProxyEndpoint>

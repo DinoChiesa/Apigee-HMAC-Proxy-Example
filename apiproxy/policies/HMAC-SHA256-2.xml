@@ -1,0 +1,6 @@
+<HMAC name='HMAC-SHA256-2'>
+  <Algorithm>SHA-256</Algorithm>
+  <Message>{request.header.host}|{request.verb}|{message.uri}|{message.content}</Message>
+  <SecretKey ref='private.secretkey' />
+  <Output encoding='base16'>hmac_value</Output>
+</HMAC>

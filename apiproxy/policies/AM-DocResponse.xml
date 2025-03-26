@@ -1,0 +1,43 @@
+<AssignMessage name='AM-DocResponse'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='application/json'>{
+  "message" : "Documentation for this API Proxy.",
+  "links": [
+    { "payload" :
+       {
+         "href" : "/hmac-demo-20230727/sha256/payload?key=abcdefg",
+         "verb" : "POST",
+         "info" : "The HMAC will be calculated on the POST payload, using the given key, decoded as UTF-8"
+       }
+    },
+    { "payload-with-verify" :
+       {
+         "href" : "/hmac-demo-20230727/sha256/payload-with-verify?key=abcdefg&amp;verification=base16-encoded-hmac",
+         "verb" : "POST",
+         "info" : "The HMAC will be calculated on the POST payload, using the given key, which is decoded as UTF-8, and then verified against the value passed (base16 format)"
+       }
+    },
+    { "headers" :
+       {
+         "href" : "/hmac-demo-20230727/sha256/composition?key=abcdefg",
+         "verb" : "POST",
+         "info" : "The HMAC will be calculated on a composition of the message"
+       }
+    }
+  ],
+  "parameters" : [
+     {
+       "name" : "key",
+       "type" : "query",
+       "vtype" : "string",
+       "doc" : "the key to use to compute the secure hash. It's decoded as UTF-8",
+       "optional" : false
+     }
+  ]
+}
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+</AssignMessage>

@@ -1,0 +1,13 @@
+<AssignMessage name='AM-Response-1a'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='text/plain'>keybytes: {hmac.HMAC-SHA256-1-with-Verify.keybytes}
+message: {hmac.HMAC-SHA256-1-with-Verify.message}
+output encoding: {hmac.HMAC-SHA256-1-with-Verify.outputencoding}
+output: {hmac_value}
+
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+</AssignMessage>
